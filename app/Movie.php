@@ -22,4 +22,10 @@ class Movie extends Model
         'drama', 
         'documentary'
     ];
+
+    public static function search($query, $searchInput) {
+        if ( isset($searchInput) ) {
+            return $query->where('title', 'LIKE', '%' . $searchInput . '%');
+        }
+    }
 }
