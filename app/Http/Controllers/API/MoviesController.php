@@ -59,7 +59,13 @@ class MoviesController extends Controller
     public function update(Request $request, $id)
     {
         $movie = Movie::findOrFail($id);
-        $movie->update($request->all());
+        $movie->update($request->validate([
+            'title' => 'string|unique:movies|required',
+            'director' => 'string|required',
+            'imageUrl' => 'string|URL',
+            'duration' => 'integer|required|min:1|max:500',
+            'releaseDate' => 'required|unique:movies,releaseDate',
+        ]));
         return $movie;
     }
 
