@@ -16,13 +16,11 @@ class MoviesController extends Controller
      */
     public function index(Request $request)
     {
-        if (isset($request)) {
-            return Movie::all();
-        }
-        else {
+        if (!empty($request->input('title'))) {
             $searchInput = $request->input('title');
             return Movie::search(Movie::query(), $searchInput)->get();
         }
+        else return Movie::all();
     }
 
     /**
