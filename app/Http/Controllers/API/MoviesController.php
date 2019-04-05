@@ -14,13 +14,13 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        if (!empty($request->input('title'))) {
-            $searchInput = $request->input('title');
-            return Movie::search(Movie::query(), $searchInput)->get();
-        }
-        else return Movie::all();
+
+    public function index(Request $request) {   
+        $searchInput = $request->input('title');
+        $take = $request->input('take');
+        $skip = $request->input('skip');
+
+        return Movie::search(Movie::query(), $searchInput, $take, $skip);
     }
 
     /**

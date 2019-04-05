@@ -23,9 +23,23 @@ class Movie extends Model
         'documentary'
     ];
 
-    public static function search($query, $searchInput) {
-        if ( isset($searchInput) ) {
-            return $query->where('title', 'LIKE', '%' . $searchInput . '%');
+    public static function search($query, $searchInput, $take, $skip) {
+        if ($take && $skip) {
+
+            if ($searchInput) {
+                return $query->where('title', 'LIKE', '%' . $searchInput . '%')
+                    ->take($take)
+                    ->skip($skip)
+                    ->get();
+            }
+
+            return Movie::take($take)->skip($skip)->get();
         }
+
+        else if ($searchInput) {
+            return $query->where('title', 'LIKE', '%' . $searchInput . '%')->get();
+        }
+
+        return Movie::all();
     }
 }
